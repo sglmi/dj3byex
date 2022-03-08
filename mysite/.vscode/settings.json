@@ -1,0 +1,6 @@
+{
+    "python.defaultInterpreterPath": "/home/saeid/repos/dj3byex/.venv/bin/python",
+    "python.envFile": "/home/saeid/repos/dj3byex/.venv",
+    "python.formatting.blackPath": "/home/saeid/.local/bin/black",
+    "python.formatting.provider": "black"
+}
