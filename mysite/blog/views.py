@@ -5,8 +5,8 @@ from django.core.mail import send_mail
 from django.conf import settings
 
 
-from .forms import EmailPostForm
-from .models import Post
+from .forms import EmailPostForm, CommentForm
+from .models import Post, Comment
 
 
 def post_detail(request, year, month, day, post):
@@ -18,7 +18,28 @@ def post_detail(request, year, month, day, post):
         publish__month=month,
         publish__day=day,
     )
-    return render(request, "blog/post/detail.html", {"post": post})
+    comments = post.comments.filter(active=True)
+    new_comment = None
+
+    if request.method == "POST":
+        # create comment form with received data
+        comment_form = CommentForm(data=request.POST)
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.post = post
+            new_comment.save()
+    else:
+        comment_form = CommentForm()
+    return render(
+        request,
+        "blog/post/detail.html",
+        {
+            "post": post,
+            "comment_form": comment_form,
+            "comments": comments,
+            "new_comment": new_comment,
+        },
+    )
 
 
 def post_list(request):

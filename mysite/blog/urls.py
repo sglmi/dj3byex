@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 
-app_name = "blog"
+app_name = "blog"  # refer to the urls of the app inside app
 urlpatterns = [
     # post views
     path("", views.PostListView.as_view(), name="post_list"),
